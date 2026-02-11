@@ -1,0 +1,33 @@
+RewriteEngine On
+
+# ===========================
+# ✅ admin.randevusu.online özel yönlendirme
+# ===========================
+RewriteCond %{HTTP_HOST} ^admin\.randevusu\.online$ [NC]
+RewriteRule ^(.*)$ /admin/$1 [L,QSA]
+
+
+# ===========================
+# ✅ dashboard.randevusu.online özel yönlendirme
+# ===========================
+RewriteCond %{HTTP_HOST} ^dashboard\.randevusu\.online$ [NC]
+RewriteRule ^(.*)$ /dashboard/$1 [L,QSA]
+
+# ===========================
+# ✅ tenant subdomain yönlendirme
+# ===========================
+RewriteCond %{HTTP_HOST} !^randevusu\.online$ [NC]
+RewriteCond %{HTTP_HOST} !^dashboard\.randevusu\.online$ [NC]
+RewriteCond %{HTTP_HOST} ^([a-z0-9-]+)\.randevusu\.online$ [NC]
+RewriteRule ^(.*)$ /subdomain/$1 [L,QSA]
+
+# ===========================
+# ✅ Ana domain routing
+# ===========================
+DirectoryIndex index.html
+RewriteRule ^files$ files.php [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
+
+

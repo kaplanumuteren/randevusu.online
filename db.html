@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Dinamik Firestore Explorer</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      padding: 20px;
+    }
+    h1, h2, h3 { color: #f1f5f9; }
+    input {
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      border: none;
+      width: 260px;
+    }
+    button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      background: #3b82f6;
+      color: white;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: #020617;
+    }
+    th, td {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 8px;
+      vertical-align: top;
+    }
+    pre { white-space: pre-wrap; color: #bfdbfe; }
+  </style>
+</head>
+
+<body>
+
+  <h1>Dinamik Firestore Veri Görüntüleyici</h1>
+
+  <h3>1) Ana koleksiyon adını gir:</h3>
+  <input type="text" id="mainCollection" placeholder="ör: tenants, users, shops">
+  <button id="loadMain">Ana Koleksiyonu Getir</button>
+
+  <div id="mainData"></div>
+
+  <h3 style="margin-top:40px;">2) Alt koleksiyon adını gir:</h3>
+  <input type="text" id="subCollection" placeholder="ör: services, appointments, orders">
+  <button id="loadSub">Alt Koleksiyonları Getir</button>
+
+  <div id="subData"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDxc4qZ0YW3w6aZsm-e8DXB4FErliYeA5E",
+        authDomain: "kampusio.firebaseapp.com",
+        projectId: "kampusio"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let cachedDocIds = []; // Ana koleksiyon doküman ID'leri burada tutulacak
+
+    // 1) ANA KOLEKSİYON VERİLERİNİ YÜKLE
+    document.getElementById("loadMain").onclick = async () => {
+      const mainName = document.getElementById("mainCollection").value.trim();
+      const target = document.getElementById("mainData");
+
+      if (!mainName) {
+        alert("Ana koleksiyon adını yazmalısın");
+        return;
+      }
+
+      target.innerHTML = "<h2>Ana Koleksiyon: " + mainName + "</h2>";
+
+      const colRef = collection(db, mainName);
+
+      const snap = await getDocs(colRef);
+
+      cachedDocIds = [];
+
+      let html = `<table>
+        <thead><tr><th>ID</th><th>Veri</th></tr></thead><tbody>`;
+
+      snap.forEach(docSnap => {
+        cachedDocIds.push(docSnap.id);
+
+        html += `
+          <tr>
+            <td>${docSnap.id}</td>
+            <td><pre>${JSON.stringify(docSnap.data(), null, 2)}</pre></td>
+          </tr>
+        `;
+      });
+
+      html += "</tbody></table>";
+
+      target.innerHTML += html;
+    };
+
+    // 2) ALT KOLEKSİYON VERİLERİNİ YÜKLE
+    document.getElementById("loadSub").onclick = async () => {
+      const subName = document.getElementById("subCollection").value.trim();
+      const mainName = document.getElementById("mainCollection").value.trim();
+      const target = document.getElementById("subData");
+
+      if (!subName || cachedDocIds.length === 0) {
+        alert("Alt koleksiyon adı ve önce ana koleksiyon gerekli!");
+        return;
+      }
+
+      target.innerHTML = `<h2>Alt Koleksiyon: ${subName}</h2>`;
+
+      for (const id of cachedDocIds) {
+        target.innerHTML += `<h3>${mainName}/${id}/${subName}</h3>`;
+
+        const colRef = collection(db, mainName, id, subName);
+        const snap = await getDocs(colRef);
+
+        if (snap.empty) {
+          target.innerHTML += `<p>Bu dokümanın altında '${subName}' koleksiyonu yok veya boş.</p>`;
+          continue;
+        }
+
+        let html = `<table>
+          <thead><tr><th>ID</th><th>Veri</th></tr></thead><tbody>`;
+
+        snap.forEach(docSnap => {
+          html += `
+            <tr>
+              <td>${docSnap.id}</td>
+              <td><pre>${JSON.stringify(docSnap.data(), null, 2)}</pre></td>
+            </tr>
+          `;
+        });
+
+        html += "</tbody></table>";
+        target.innerHTML += html;
+      }
+    };
+  </script>
+
+</body>
+</html>

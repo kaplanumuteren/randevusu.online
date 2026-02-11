@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Randevu Al</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/public.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <h1 id="businessName">Yükleniyor...</h1>
+        <label class="theme-toggle">
+          <input type="checkbox" id="themeToggle">
+          <span class="toggle-slider">
+            <span class="toggle-icon">🌙</span>
+            <span class="toggle-icon">☀️</span>
+          </span>
+        </label>
+      </div>
+    </header>
+
+    <div class="main-layout">
+      <!-- Left Column: Info Cards -->
+      <div class="left-column">
+        <!-- Gallery Section -->
+        <div class="card" id="gallerySection" style="display: none;">
+          <div id="galleryMain">
+            <div class="gallery-placeholder">
+              <div class="gallery-placeholder-icon">🖼️</div>
+              <div>Galeri görseli yükleniyor...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- About Us Card -->
+        <div class="card" id="aboutSection" style="display: none;">
+          <h2>Hakkımızda</h2>
+          <div id="aboutContent" class="empty-state">Henüz bilgi eklenmemiş.</div>
+        </div>
+
+        <!-- Info Cards (Working Hours, Phone, Address) -->
+        <div class="info-cards-vertical" id="infoCardsSection" style="display: none;">
+        
+          <div class="card info-card" id="phoneCard" style="display: none;">
+            <h3>Telefon</h3>
+            <div class="phone-content">
+              <span id="phoneNumber" class="empty-state">Bilgi yok</span>
+              <a href="#" id="phoneLink" class="info-btn" style="display: none;">Ara</a>
+            </div>
+          </div>
+
+          <div class="card info-card" id="addressCard" style="display: none;">
+            <h3>Adres</h3>
+            <div id="addressText" class="empty-state">Bilgi yok</div>
+            <a href="#" id="addressLink" class="info-btn" target="_blank" style="display: none;">Haritada Yol Tarifi</a>
+          </div>
+        </div>
+
+        <div class="card info-card" id="workingHoursCard" style="display: none;">
+            <h3>Çalışma Saatleri</h3>
+            <div id="workingHours" class="empty-state">Bilgi yok</div>
+          </div>
+
+
+        <!-- Staff Section -->
+        <div class="card" id="staffSection" style="display: none;">
+          <h2>Personeller</h2>
+          <div class="staff-grid" id="staffGrid">
+            <div class="empty-state">Henüz personel eklenmemiş.</div>
+          </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="card" id="reviewsSection" style="display: none;">
+          <h2>Müşteri Yorumları</h2>
+          <div class="reviews-empty">Henüz eklenen bir yorum bulunmuyor.</div>
+        </div>
+      </div>
+
+      <!-- Right Column: Services -->
+      <div class="right-column">
+        <div class="card services-card">
+          <h2>Hizmetler</h2>
+          <div class="service-filters" id="serviceFilters">
+            <button class="filter-btn active" data-category="" id="allServicesBtn">Tüm</button>
+          </div>
+          <div class="services-grid" id="servicesGrid">
+            <div class="loading">Hizmetler yükleniyor...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Button -->
+    <button class="btn-booking" id="openBookingModal">Randevu Al</button>
+  </div>
+
+  <!-- Booking Modal -->
+  <div class="booking-modal" id="bookingModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal">×</button>
+      <div id="errorMessage" class="error" style="display: none;"></div>
+
+      <!-- Step 1: Select Service -->
+      <div class="step active" id="step1">
+        <h2>Hizmet Seçin</h2>
+        <div id="modalServicesList" class="loading">Yükleniyor...</div>
+        <button class="btn btn-primary" id="nextToStep2" disabled>Devam Et</button>
+      </div>
+
+      <!-- Step 2: Select Staff, Date & Time (Combined) -->
+      <div class="step" id="step2" style="display: none;">
+        <h2>Personel, Tarih ve Saat Seçin</h2>
+        
+        <div class="staff-datetime-grid">
+          <!-- Left: Staff Selection -->
+          <div class="staff-selection">
+            <h3>Personel Seçin</h3>
+            <div id="staffList" class="loading">Personeller yükleniyor...</div>
+          </div>
+          
+          <!-- Right: Date & Time Selection -->
+          <div class="datetime-selection">
+            <h3>Tarih ve Saat Seçin</h3>
+            <div class="form-group">
+              <label>Tarih</label>
+              <input type="date" id="appointmentDate" min="">
+            </div>
+            <div class="form-group">
+              <label>Saat</label>
+              <div id="timeSlots" class="time-slots"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button class="btn btn-secondary" id="backToStep1Staff">Geri</button>
+          <button class="btn btn-primary" id="nextToStep3" disabled>Devam Et</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Customer Info -->
+      <div class="step" id="step3" style="display: none;">
+        <h2>Bilgileriniz</h2>
+        <div class="form-group">
+          <label>Ad Soyad</label>
+          <input type="text" id="customerName" placeholder="Adınız ve soyadınız" required>
+        </div>
+        <div class="form-group">
+          <label>Telefon</label>
+          <input type="tel" id="customerPhone" placeholder="05XX XXX XX XX" required>
+        </div>
+        <button class="btn btn-secondary" id="backToStep2FromInfo">Geri</button>
+        <button class="btn btn-primary" id="submitBooking" disabled>Randevu Oluştur</button>
+      </div>
+
+      <!-- Step 4: Success -->
+      <div class="step" id="step4" style="display: none;">
+        <div class="success-message">
+          <div class="icon">✅</div>
+          <h2>Randevunuz Oluşturuldu!</h2>
+          <p id="successDetails"></p>
+          <button class="btn btn-primary" onclick="location.reload()">Yeni Randevu</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./assets/js/public/app.js"></script>
+

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Randevusu.online - Modern Randevu Yönetim Sistemi</title>
+  <link rel="stylesheet" href="./assets/css/main.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    /* Landing Page Specific Styles */
+    .landing-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(135deg, var(--bg) 0%, var(--surface-dark) 100%);
+    }
+
+    .landing-header {
+      padding: 20px 40px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .landing-logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .landing-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .landing-actions .btn-primary,
+    .landing-actions .btn-secondary {
+      padding: 10px 24px;
+      font-size: 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    .landing-actions .btn-secondary {
+      background: transparent;
+      border: 2px solid var(--border);
+      color: var(--text);
+    }
+
+    .landing-actions .btn-secondary:hover {
+      background: var(--bg);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .landing-hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 40px;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 20px;
+      line-height: 1.2;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 20px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      max-width: 700px;
+      line-height: 1.6;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 60px;
+    }
+
+    .hero-cta .btn-primary {
+      padding: 16px 32px;
+      font-size: 18px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    .features-section {
+      padding: 80px 40px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .features-title {
+      font-size: 36px;
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .features-subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 18px;
+      margin-bottom: 60px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .feature-card {
+      background: var(--bg);
+      padding: 30px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      border-color: var(--primary);
+    }
+
+    .feature-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .feature-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .feature-description {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .benefits-section {
+      padding: 80px 40px;
+      background: var(--bg);
+    }
+
+    .benefits-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .benefits-title {
+      font-size: 36px;
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .benefits-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px;
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .benefit-icon {
+      font-size: 24px;
+      color: var(--primary);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .benefit-content h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .benefit-content p {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .cta-section {
+      padding: 80px 40px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      text-align: center;
+      color: white;
+    }
+
+    .cta-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .cta-title {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .cta-subtitle {
+      font-size: 18px;
+      margin-bottom: 40px;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.6;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-buttons .btn-primary,
+    .cta-buttons .btn-secondary {
+      padding: 16px 32px;
+      font-size: 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .cta-buttons .btn-secondary {
+      background: white;
+      color: var(--primary);
+      border: 2px solid white;
+    }
+
+    .cta-buttons .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateY(-2px);
+    }
+
+    .landing-footer {
+      padding: 40px;
+      background: var(--surface-dark);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .landing-header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .landing-actions {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .landing-actions .btn-primary,
+      .landing-actions .btn-secondary {
+        flex: 1;
+        text-align: center;
+      }
+
+      .hero-title {
+        font-size: 32px;
+      }
+
+      .hero-subtitle {
+        font-size: 18px;
+      }
+
+      .features-section,
+      .benefits-section,
+      .cta-section {
+        padding: 60px 20px;
+      }
+
+      .features-title,
+      .benefits-title,
+      .cta-title {
+        font-size: 28px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .benefits-list {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-cta,
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .hero-cta .btn-primary,
+      .cta-buttons .btn-primary,
+      .cta-buttons .btn-secondary {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="landing-page">
+    <!-- Header -->
+    
+
+    <!-- Hero Section -->
+    <section class="landing-hero">
+      <h1 class="hero-title">Randevu Yönetimini Kolaylaştırın</h1>
+      <p class="hero-subtitle">
+        Modern ve kullanıcı dostu randevu yönetim sistemi ile işletmenizi dijitalleştirin. 
+        Müşterileriniz kolayca randevu alabilsin, siz de randevularınızı tek bir yerden yönetin.
+      </p>
+      
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+      <div class="features-container">
+        <h2 class="features-title">Neden Randevusu.online?</h2>
+        <p class="features-subtitle">
+          İşletmeniz için ihtiyacınız olan tüm randevu yönetim özelliklerini tek bir platformda sunuyoruz.
+        </p>
+        <div class="features-grid">
+          <div class="feature-card">
+            <span class="feature-icon">📅</span>
+            <h3 class="feature-title">Kolay Randevu Yönetimi</h3>
+            <p class="feature-description">
+              Tüm randevularınızı tek bir yerden görüntüleyin, düzenleyin ve yönetin. 
+              Takvim görünümü ile randevularınızı görselleştirin.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">👥</span>
+            <h3 class="feature-title">Personel ve Hizmet Yönetimi</h3>
+            <p class="feature-description">
+              Personellerinizi ekleyin, hizmetlerinizi tanımlayın ve her hizmete özel 
+              personel atamaları yapın. Kategoriler ile organize edin.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">💰</span>
+            <h3 class="feature-title">Kazanç Takibi</h3>
+            <p class="feature-description">
+              Randevularınızdan elde ettiğiniz kazançları takip edin. 
+              Günlük, haftalık ve aylık raporlar ile finansal durumunuzu görüntüleyin.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">⚙️</span>
+            <h3 class="feature-title">Otomatik Onaylama</h3>
+            <p class="feature-description">
+              Randevu isteklerini otomatik olarak onaylayın veya manuel kontrol edin. 
+              İşletme ayarlarınızı özelleştirin.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">📱</span>
+            <h3 class="feature-title">Mobil Uyumlu</h3>
+            <p class="feature-description">
+              Hem yönetim paneli hem de müşteri randevu sayfası tam mobil uyumlu. 
+              Her cihazdan erişebilirsiniz.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">🎨</span>
+            <h3 class="feature-title">Özelleştirilebilir</h3>
+            <p class="feature-description">
+              İşletme bilgilerinizi, çalışma saatlerinizi, galerinizi ve görünürlük 
+              ayarlarınızı kolayca özelleştirin.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section">
+      <div class="benefits-container">
+        <h2 class="benefits-title">Sisteminizin Avantajları</h2>
+        <div class="benefits-list">
+          <div class="benefit-item">
+            <span class="benefit-icon">✅</span>
+            <div class="benefit-content">
+              <h3>Zaman Tasarrufu</h3>
+              <p>Telefon görüşmeleri ve manuel randevu kayıtlarına veda edin. 
+              Müşterileriniz online randevu alabilsin.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-icon">📊</span>
+            <div class="benefit-content">
+              <h3>Detaylı Raporlama</h3>
+              <p>Randevu istatistiklerinizi ve kazançlarınızı detaylı raporlarla 
+              takip edin.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-icon">🔔</span>
+            <div class="benefit-content">
+              <h3>Anında Bildirimler</h3>
+              <p>Yeni randevu istekleri ve değişikliklerden anında haberdar olun.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-icon">🚀</span>
+            <div class="benefit-content">
+              <h3>Hızlı Kurulum</h3>
+              <p>Birkaç dakika içinde hesabınızı oluşturun ve hemen kullanmaya başlayın.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-icon">🔒</span>
+            <div class="benefit-content">
+              <h3>Güvenli ve Güvenilir</h3>
+              <p>Verileriniz güvenli bir şekilde saklanır ve yedeklenir.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-icon">💼</span>
+            <div class="benefit-content">
+              <h3>Profesyonel Görünüm</h3>
+              <p>Müşterilerinize profesyonel bir randevu alma deneyimi sunun.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+      <p>&copy; 2025 Randevusu.online - Tüm hakları saklıdır.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+

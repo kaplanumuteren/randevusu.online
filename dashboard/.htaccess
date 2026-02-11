@@ -1,0 +1,3 @@
+RewriteEngine On
+DirectoryIndex dashboard.php
+RewriteRule ^login$ login.php [L]
