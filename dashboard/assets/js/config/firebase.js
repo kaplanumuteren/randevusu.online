@@ -3,7 +3,7 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/11.0.1/firebase
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBkmyqYoEyUahq7_9unZJy-c4jPeE9cm-A",
+  apiKey: "YOUR_FIREBASE_API_KEY",
   authDomain: "randevusu-5d7de.firebaseapp.com",
   projectId: "randevusu-5d7de",
   storageBucket: "randevusu-5d7de.appspot.com",

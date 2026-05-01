@@ -1,2 +1,2 @@
 // token.js
-window.ADMIN_TOKEN = "2121";
+window.ADMIN_TOKEN = "YOUR_ADMIN_TOKEN";
